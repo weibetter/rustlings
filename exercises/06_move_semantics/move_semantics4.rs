@@ -9,9 +9,11 @@ mod tests {
     #[test]
     fn move_semantics4() {
         let mut x = Vec::new();
-        let y = &mut x;
+        let y = &mut x; // Cannot borrow `x` as mutable more than once at a time
+        y.push(42); 
+        
+        // Borrow checker should allow this after reordering
         let z = &mut x;
-        y.push(42);
         z.push(13);
         assert_eq!(x, [42, 13]);
     }
