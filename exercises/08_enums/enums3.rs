@@ -116,6 +116,7 @@ mod tests {
             quit: false,
         };
 
+        // call process() with different Message variants
         state.process(Message::Resize {
             width: 10,
             height: 30,
