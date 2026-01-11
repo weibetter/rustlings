@@ -44,8 +44,56 @@ impl State {
     }
 
     fn process(&mut self, message: Message) {
-        // TODO: Create a match expression to process the different message
-        // variants using the methods defined above.
+        // ===== MATCH EXPRESSION: THE SEQUENCE =====
+        // A match statement does the following IN ORDER:
+        // 1. Evaluates the expression (in this case: the message parameter)
+        // 2. Compares it against each arm (pattern) from top to bottom
+        // 3. Stops at the FIRST arm that matches
+        // 4. Executes the code for that arm
+        // 5. Returns the result (if the match returns a value)
+        //
+        // Key rule: Only ONE arm executes. Once a match is found, all other
+        // arms are skipped (no fall-through like switch statements in C/Java)
+        //
+        // Pattern matching: Each Message variant has a unique shape, so Rust
+        // can tell them apart and extract the associated data automatically.
+        
+        match message {
+            // ARM 1: Message::Resize with named fields
+            // Pattern: Matches the Resize variant and extracts width and height
+            // Extraction: { width, height } unpacks the named fields
+            // Execution: Calls resize() with the extracted values
+            // This arm only matches if message is Resize { ... }
+            Message::Resize { width, height } => self.resize(width, height),
+            
+            // ARM 2: Message::Move containing a Point
+            // Pattern: Matches the Move variant and extracts the Point struct
+            // Extraction: (point) unpacks the tuple—point is now the Point struct
+            // Execution: Calls move_position() with the Point
+            // This arm only matches if message is Move(Point { ... })
+            Message::Move(point) => self.move_position(point),
+            
+            // ARM 3: Message::Echo containing a String
+            // Pattern: Matches the Echo variant and extracts the String
+            // Extraction: (s) unpacks the tuple—s is now the String value
+            // Execution: Calls echo() with the String
+            // This arm only matches if message is Echo(String)
+            Message::Echo(s) => self.echo(s),
+            
+            // ARM 4: Message::ChangeColor containing three u8 values
+            // Pattern: Matches the ChangeColor variant and extracts the three bytes
+            // Extraction: (r, g, b) unpacks the tuple—r, g, b are the color values
+            // Execution: Calls change_color() with the three color components
+            // This arm only matches if message is ChangeColor(u8, u8, u8)
+            Message::ChangeColor(r, g, b) => self.change_color(r, g, b),
+            
+            // ARM 5: Message::Quit
+            // Pattern: Matches the Quit variant (no data to extract)
+            // Extraction: Nothing—Quit is a unit variant with no associated data
+            // Execution: Calls quit() with no arguments
+            // This arm only matches if message is Quit
+            Message::Quit => self.quit(),
+        }
     }
 }
 
