@@ -68,7 +68,7 @@ mod tests {
     #[test]
     fn it_works() {
         for transformer in [transformer, transformer_iter] {
-            let input = vec![
+            let mut input = vec![
                 ("hello".to_string(), Command::Uppercase),
                 (" all roads lead to rome! ".to_string(), Command::Trim),
                 ("foo".to_string(), Command::Append(1)),
