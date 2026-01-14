@@ -1,3 +1,5 @@
+# Difficulty 10/10
+
 # Generics
 
 Generics is the topic of generalizing types and functionalities to broader cases.
